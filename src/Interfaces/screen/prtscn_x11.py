@@ -1,6 +1,6 @@
 import ctypes
 import os, sys
-import Image
+from PIL import Image
 from Xlib import display
 
 LibName = 'prtscn_dll_x11.so'
