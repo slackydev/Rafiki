@@ -50,7 +50,7 @@ class OptionFrame(wx.Dialog):
     self.SetInitialSize()
     if parent:
         self.CentreOnParent(wx.BOTH)
-    self.SetMinSize((500,250))
+    self.SetMinSize((200,250))
 
     # Event Handlers
     self.Bind(wx.EVT_CLOSE, self.OnClose)

@@ -1,68 +1,66 @@
-from ..pywin_api.con import *
-from ..pywin_api import winapi
+import os,sys
+abspath = os.path.abspath(__file__)
+srcpath = os.path.dirname(abspath)+os.sep+'..'+os.sep+'..'
+sys.path.insert(1, srcpath)
+
+from pywin_api.conn import *
+from pywin_api import winapi
 from time import sleep
 
-from .base import MouseMeta
+from .stub import MouseMeta
 
 BASE = ['mbleft', 'mbmdl', 'mbright']
 
-BUTTON = {
-  'mbleft':  (MOUSE_LEFTDOWN,   MOUSE_LEFTUP),
-  'mbmdl':   (MOUSE_MIDDLEDOWN, MOUSE_MIDDLEUP),
-  'mbright': (MOUSE_RIGHTDOWN,  MOUSE_RIGHTUP)
-  'scroll_up':    (MOUSE_WHEEL,  1), 
-  'scroll_down':  (MOUSE_WHEEL,  -1), 
-  'scroll_left':  (MOUSE_HWHEEL, -1), 
-  'scroll_right': (MOUSE_HWHEEL, 1),
-}
-
-BUTTON_UP = { 
-  1: MOUSE_LEFTDOWN, 
-  2: MOUSE_MIDDLEDOWN, 
-  3: MOUSE_RIGHTDOWN,
+BUTTON_DOWN = { 
+  1: (MOUSE_LEFTDOWN, 0),
+  2: (MOUSE_MIDDLEDOWN, 0),
+  3: (MOUSE_RIGHTDOWN, 0),
   4: (MOUSE_WHEEL, 0), #EMPTY
   5: (MOUSE_WHEEL, 0), #EMPTY
-  6: (MOUSE_HWHEEL,0), #EMPTY
-  7: (MOUSE_HWHEEL,0)  #EMPTY
+  6: (MOUSE_HWHEEL, 0), #EMPTY
+  7: (MOUSE_HWHEEL, 0)  #EMPTY
 }
-BUTTON_DOWN = { 
-  1: MOUSE_LEFTUP,  
-  2: MOUSE_MIDDLEUP, 
-  3: MOUSE_RIGHTUP,
+BUTTON_UP = { 
+  1: (MOUSE_LEFTUP, 0),
+  2: (MOUSE_MIDDLEUP, 0), 
+  3: (MOUSE_RIGHTUP, 0),
   4: (MOUSE_WHEEL,  1), #UP
   5: (MOUSE_WHEEL, -1), #DOWN
   6: (MOUSE_HWHEEL,-1), #LEFT
-  7: (MOUSE_HWHEEL, 1), #RIGHT
+  7: (MOUSE_HWHEEL, 1)  #RIGHT
+}
+
+BUTTON = {
+  'mbleft':  1,
+  'mbmdl':   2,
+  'mbright': 3,
+  'scroll_up':    4, 
+  'scroll_down':  5, 
+  'scroll_left':  6, 
+  'scroll_right': 7
 }
 
 class Mouse(MouseMeta):
     def press(self, x, y, button):
         if isinstance(button, str): 
-          i = 0
-          if button in BASE:
-            action = BUTTON.get(button)[0]
-          else:
-            action, i = BUTTON.get(button)
-
-
-        else: action = BUTTON_DOWN.get(button)                         
+            button = BUTTON.get(button)
+        action, e = BUTTON_DOWN.get(button)
+            
         self.move(x,y)
-        winapi.mouse_event(action, x, y, i, 0)
+        winapi.mouse_event(action, x, y, e, 0)
+        print action
         
     def release(self, x, y, button = 1):
         if isinstance(button, str): 
-          if button in BASE:
-            action = BUTTON.get(button)[1]
-          else:
-            action, i = BUTTON.get(button)
-
-        else: action = BUTTON_UP.get(button)[1]
+            button = BUTTON.get(button)
+        action, e = BUTTON_UP.get(button)
+            
         self.move(x,y)
         winapi.mouse_event(action, x, y, 0,0)
+        print action
 
     def move(self, x, y):
         winapi.SetCursorPos(x, y)
 
     def position(self):
         return winapi.GetCursorPos()
-        

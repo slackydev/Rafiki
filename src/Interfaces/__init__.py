@@ -1,7 +1,7 @@
 import sys
   
 # If the user is on Windows
-# Requirements: ---
+# Requirements: PyHook
 if sys.platform == 'win32':
   from .mouse.windows import Mouse
   from .keybd.windows import Keybd

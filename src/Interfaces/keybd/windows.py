@@ -1,8 +1,30 @@
-''' Based on PyKeyboard (*more info TBA*) '''
-from ..pywin_api.con import *
-from ..pywin_api import winapi
+#!/usr/bin/env python
+'''~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ This file is part of the Rafiki Macro Library (RML)
+ Copyright (c) 2012-2013 by Jarl Holta
 
-from .base import KeybdMeta
+ RML is free software: you can redistribute it and/or modify
+ it under the terms of the wxWindows licence.
+
+ RML is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+ wxWindows licence: <http://opensource.org/licenses/wxwindows.php>
+ You might have recieved a copy of the lisence.
+
+ --- KeybdCtrl-frame for the Rafiki Macro Library ---
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~''' 
+import os,sys
+abspath = os.path.abspath(__file__)
+srcpath = os.path.dirname(abspath)+os.sep+'..'+os.sep+'..'
+sys.path.insert(1, srcpath)
+
+from pywin_api.conn import *
+from pywin_api import winapi
+
+from .stub import KeybdMeta
+import time
 
 class SupportError(Exception):
     """For keys not supported on this system"""
@@ -14,7 +36,7 @@ class SupportError(Exception):
 
 class Keybd(KeybdMeta):
     """
-    The keyboard implementation for Windows. This allows one to
+    The keyboard implementation for Windows systems. This allows one to
     simulate keyboard input.
     """
     def __init__(self):
@@ -28,7 +50,7 @@ class Keybd(KeybdMeta):
         try:
             shifted = self.is_char_shifted(character)
         except AttributeError:
-            wapi.keybd_event(character, 0, 0, 0)
+            winapi.keybd_event(character, 0, 0, 0)
         else:
             if shifted:
                 winapi.keybd_event(self.shift_key, 0, 0, 0)
@@ -42,12 +64,12 @@ class Keybd(KeybdMeta):
         try:
             shifted = self.is_char_shifted(character)
         except AttributeError:
-            winapi.keybd_event(character, 0, KEYEVENTF_KEYUP, 0)
+            winapi.keybd_event(character, 0, KEYBD_KEYUP, 0)
         else:
             if shifted:
-                winapi.keybd_event(self.shift_key, 0, KEYEVENTF_KEYUP, 0)
+                winapi.keybd_event(self.shift_key, 0, KEYBD_KEYUP, 0)
             char_vk = winapi.VkKeyScan(character)
-            winapi.keybd_event(char_vk, 0, KEYEVENTF_KEYUP, 0)
+            winapi.keybd_event(char_vk, 0, KEYBD_KEYUP, 0)
 
     def special_key_assignment(self):
         """
@@ -198,6 +220,5 @@ class Keybd(KeybdMeta):
         self.undo_key = None
         self.redo_key = None
         self.script_switch_key = None
-
 
 

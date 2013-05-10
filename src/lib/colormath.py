@@ -1,21 +1,4 @@
 #!/usr/bin/python
-'''~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- This file is part of the Rafiki Macro Library (RML)
- Copyright (c) 2012-2013 by Jarl Holta
-
- RML is free software: you can redistribute it and/or modify
- it under the terms of the wxWindows licence.
-
- RML is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
- wxWindows licence: <http://opensource.org/licenses/wxwindows.php>
- You might have recieved a copy of the lisence.
-
- --- Colormath for the Rafiki Macro Library ---
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~''' 
-
 '''~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # The formulas for the functions defined below was obtained from the EasyRGB 
 # Website: http://www.easyrgb.com/math.html

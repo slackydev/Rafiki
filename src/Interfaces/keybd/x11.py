@@ -1,11 +1,11 @@
-''' Based on PyKeyboard (*more info TBA*) '''
 from Xlib.display import Display
 from Xlib import X
 from Xlib.ext.xtest import fake_input
 from Xlib.XK import string_to_keysym, keysym_to_string
 
-from .base import KeybdMeta
+from .base import KeybdMeta, KeybdEventMeta
 
+import time
 
 special_X_keysyms = {
     ' ' : "space",
@@ -125,7 +125,6 @@ class Keybd(KeybdMeta):
         self.control_key = self.control_l_key  # Default Ctrl is left Ctrl
         self.caps_lock_key = self.lookup_character_value('Caps_Lock')
         self.capital_key = self.caps_lock_key  # Some may know it as Capital
-        self.shift_lock_key = self.lookup_character_value('Shift_Lock')
         self.meta_l_key = self.lookup_character_value('Meta_L')
         self.meta_r_key = self.lookup_character_value('Meta_R')
         self.super_l_key = self.lookup_character_value('Super_L')
@@ -203,7 +202,4 @@ class Keybd(KeybdMeta):
         if ch_keysym == 0:
             ch_keysym = string_to_keysym(special_X_keysyms[character])
         return self.display.keysym_to_keycode(ch_keysym)
-
-
-
 

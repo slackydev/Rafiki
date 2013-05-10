@@ -34,7 +34,7 @@ from random import randint
 from threading import Thread
 
 ''' Rafiki widgets '''
-sys.path.insert(1, os.path.join(sys.path[0], 'src/'))
+sys.path.insert(1, os.path.join(sys.path[0], 'src' + os.sep))
 
 from src.widgets import calc, colorpicker, options
 from src.widgets import DirTreeCtrl as DTC
@@ -129,20 +129,20 @@ class RafikiFrame(wx.Frame):
     self.panel2 = wx.Panel(window, -1)
     self.panel1.SetBackgroundColour(wx.Colour(205,205,205))
 
-    # RIGHT SIDE PANEL / self.panel1
+    # LEFT SIDE PANEL / self.panel1
     self.stxt = wx.StaticText(self.panel1, -1, label=" File browser")
     self.stxt.SetForegroundColour((35,35,35))
 
-    self.tc = DTC.DirTreeCtrl(self)
+    self.tc = DTC.DirTreeCtrl(self.panel1)
     self.cpath = os.path.dirname(os.path.realpath(__file__))
     self.tc.SetRootDir(self.cpath)
     
     rpan = wx.BoxSizer(wx.VERTICAL)
-    rpan.Add(self.stxt, 0, wx.EXPAND|wx.ALL, border = 2)
-    rpan.Add(self.tc, 10, wx.EXPAND|wx.ALL, border = 1)
+    rpan.Add(self.stxt, 0, wx.EXPAND|wx.ALL, border=2)
+    rpan.Add(self.tc, 10, wx.EXPAND|wx.ALL, border=1)
     self.panel1.SetSizer(rpan)
 
-    # LEFT SIDE PANEL / self.panel2
+    # RIGHT SIDE PANEL / self.panel2
     hsplit = wx.SplitterWindow(self.panel2)
     self.ntb = Notebook(hsplit, self)
     self.debug = DebugControl(hsplit, self)
@@ -152,7 +152,7 @@ class RafikiFrame(wx.Frame):
     hsplit.SetMinimumPaneSize(80)
 
     sizer = wx.BoxSizer(wx.VERTICAL)
-    sizer.Add(hsplit, 1, wx.EXPAND|wx.ALL, border = 2)
+    sizer.Add(hsplit, 1, wx.EXPAND|wx.ALL, border=2)
     self.panel2.SetSizer(sizer)
 
     # ADD PANELS
@@ -161,7 +161,7 @@ class RafikiFrame(wx.Frame):
     window.SetMinimumPaneSize(150)
 
     self.SetSizer(wx.BoxSizer(wx.HORIZONTAL))
-    self.GetSizer().Add(window, 1, wx.EXPAND)
+    self.GetSizer().Add(window, 1, wx.EXPAND|wx.ALL, border=1)
 
     self.sb = self.CreateStatusBar(2)
     self.sb.SetStatusWidths([-1, 150])
@@ -219,15 +219,14 @@ class RafikiFrame(wx.Frame):
   def onActivateFile(self, evt):
     """ Open a file doubbleclicked in the treectrl """
     ID = evt.GetItem()
+
     filename = self.tc.GetItemText(ID)
     if filename == self.cpath.split(os.sep)[-1]:
       return None
 
-    
     dirname = self.getItemPath(ID)[:-len(filename)]
     data = os.path.splitext(filename)
 
-    
     if data[1] not in BADEXT:
       filehandle=open(os.path.join(dirname, filename),'rb')
       self.onNewDoc(0)
@@ -327,7 +326,6 @@ class RafikiFrame(wx.Frame):
     """ Get and return the path of the given item id
         @param itemId: TreeItemId
     """
-
     root = self.tc.GetRootItem()
     start = itemId
     atoms = [itemId]
@@ -817,7 +815,7 @@ class Notebook(wx.Notebook):
       self.tab_id = -1
 
   def onPageChanged(self, event):
-    page_id = self.GetSelection()
+    page_id = event.GetSelection()
     data = self.rafiki.files.get(page_id)
     newTitle = self.rafiki.title + " | "+ self.GetPageText(page_id)
     if data:
@@ -841,13 +839,14 @@ class RenameTabDialog(wx.Dialog):
   def __init__(self, parent):
     wx.Dialog.__init__(self, parent, wx.ID_ANY, 
             'Raname tab id: %d' % parent.tab_id, size=(220,80))
+    
     self.parent = parent
     self.tab_id = parent.tab_id
     main = wx.BoxSizer(wx.VERTICAL)
     self.newname = wx.TextCtrl(self, -1, '', size=(200, 25))
     self.cancel = wx.Button(self, -1, 'Cancel')
     self.append = wx.Button(self, -1, 'Save changes')
-
+    
     main.Add(self.newname, -1, flag=wx.ALL, border=5)
     sizer = wx.BoxSizer(wx.HORIZONTAL)
     sizer.Add(self.cancel, -1, flag=wx.ALL, border=5)
@@ -857,6 +856,7 @@ class RenameTabDialog(wx.Dialog):
     self.cancel.Bind(wx.EVT_BUTTON, self.onCancel)
     self.append.Bind(wx.EVT_BUTTON, self.onRename)
     self.SetSizer(main)
+    self.SetInitialSize()
 
   def onCancel(self, event):
     self.Destroy()
@@ -972,7 +972,7 @@ class Toolbar:
   #----------------------------------------------------------------------
   def __init__(self, rafiki):
     toolbar = rafiki.CreateToolBar()
-
+    
     ''' FILE MENU '''
     toolbar.AddSimpleTool(ID_NEW, wx.Image(ICONS + 'document-new.png',
         wx.BITMAP_TYPE_PNG).ConvertToBitmap(), 'New', 'Create a new project')

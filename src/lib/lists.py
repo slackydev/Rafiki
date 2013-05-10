@@ -3,8 +3,6 @@
 # A set of operations that will focus on lists, and mainly list of points
 #
 # PS: Division from python v3.x is faster. Hence the __future__ statement
-#
-# --- Public Domain ---
 '''~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'''
 from __future__ import division
 from operator import itemgetter
@@ -72,17 +70,17 @@ class listTools:
     #----------------------------------------------------------------- 
     def mean_pt(pts):
         """ Find the Mean of a list """
-        x_mean = 0
-        y_mean = 0
+        xmean = 0
+        ymean = 0
         for pt in pts:
-            x_mean += pt[0] 
-            y_mean += pt[1]
-        x, y = x_mean/len(pts), y_mean/len(pts)
+            xmean += pt[0] 
+            ymean += pt[1]
+        x, y = xmean/len(pts), ymean/len(pts)
         return (x,y)
     
     #-----------------------------------------------------------------     
     def breakdown_pts(pts, usex=True):
-        """ Resulting in a 2-dimansinal list from a flat list.
+        """ Resulting in a 2-dimansinal list. X->Y or Y->X
             @usex = True : [[(1,3),(1,4),(1,9)], [(2,1),(2,3),(2,7)]]
             @usex = False: [[(3,1),(6,1),(7,1)], [(2,3),(4,3),(8,3)]]
         """ 
@@ -113,8 +111,6 @@ class listTools:
     def group_pts(pts, distance=1):
         """ Group points by max distance, 
             resulting in a list of lists of points 
-
-            @note: An efficient implementation would use k-d trees.
         """
         U = unionFind()
         for (i, x) in enumerate(pts):
@@ -134,9 +130,7 @@ class listTools:
     #----------------------------------------------------------------- 
     def group_pts_ex(pts, distx=1, disty=1):
         """ Group points by max distance, 
-            resulting in a list of lists of points
-
-            @note: An efficient implementation would use k-d trees.
+            resulting in a list of lists of points 
         """
         U = unionFind()
         for (i, x) in enumerate(pts):

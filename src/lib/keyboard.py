@@ -45,7 +45,6 @@ CODES = {
     'CTRL':			kbd.control_key,
     'CAPS_LOCK':	kbd.caps_lock_key,
     'CAPITAL':    	kbd.capital_key,
-    'SHIFT_LOCK':	kbd.shift_lock_key,
     'META_l':   	kbd.meta_l_key,
     'META_R':    	kbd.meta_r_key,
     'SUPER_L':    	kbd.super_l_key,
@@ -81,20 +80,15 @@ CODES = {
     'BREAK':    	kbd.break_key,
     'MODE_SWITCH':	kbd.mode_switch_key,
     'SCRIPT_SWITCH':kbd.script_switch_key,
-    'NUM_LOCK':		kbd.num_lock_key,
-    #keys from windows
-    'KANA':			kbd.kana_key,
-    'HANGEUL':		kbd.hangeul_key, #|
-    'HANGEL':		kbd.hangul_key,  #|
-    'JUNJUA':		kbd.junjua_key,
-    'FINAL':		kbd.final_key,
-    'HANJA':		kbd.hanja_key,
-    'KANJI':		kbd.kanji_key,
-    'CONVERT':		kbd.convert_key,
-    'NONCONVERT':	kbd.nonconvert_key,
-    'ACCEPT':    	kbd.accept_key,
-    'MODECHANGE':	kbd.modechange_key,
-    'SLEEP':    	kbd.sleep_key
+    'NUM_LOCK':		kbd.num_lock_key
+}
+
+MODES = {
+    'wtf':    0,
+    'crazy':  1, 
+    'quick':  2, 
+    'nerd':   3, 
+    'normal': 4 
 }
 
 
@@ -136,10 +130,8 @@ def write_text(string, wpm=120):
     """ Click a series of buttons given as a string.
         Takes {SYMBOL}-keys as well
 
-        @params:
-          string: The text you wish to type. 
-          wpm:    Use your own speed (words per minute).
-          -- http://en.wikipedia.org/wiki/Words_per_minute
+        @param: wpm: use your own speed (words per minute).
+        -- http://en.wikipedia.org/wiki/Words_per_minute
     """
     wpm = max(wpm, 1)
     wait = 1.0 / ((wpm * 5.0) / 60.0)

@@ -146,7 +146,7 @@ class DirTreeCtrl(wx.TreeCtrl):
         """Called when a node is about to expand. Loads the node's
         files from the file system."""
         item = event.GetItem()
-
+        
         # check if item has directory data
         if type(self.GetPyData(item)) == type(Directory()):
             d = self.GetPyData(item)

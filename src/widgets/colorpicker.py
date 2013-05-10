@@ -15,7 +15,7 @@
  --- Colorpicker as used in the GUI ---                                            
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~''' 
 import wx
-import Image, ImageDraw
+from PIL import Image, ImageDraw
 import os, sys
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from Interfaces import *
@@ -139,7 +139,7 @@ class PickerPanel(wx.PyPanel):
     sizer = wx.StaticBoxSizer(sb, wx.VERTICAL)
     sizer.Add(panel, 0, wx.EXPAND|wx.ALL|wx.SIMPLE_BORDER, border = 1)
     pnl.SetSizer(sizer)
-    colorImage = wx.EmptyBitmapRGBA(140, 90, 255,255,255, alpha=0)
+    colorImage = wx.EmptyBitmapRGBA(140, 40, 255,255,255, alpha=0)
     self.colorMap = wx.StaticBitmap(panel, -1, bitmap=colorImage)
     self.colorPos = wx.StaticText(panel, -1, 'X: 0, Y: 0', pos=(0,65))
     self.colorData = wx.StaticText(panel, -1, 'RGB: 0, 0, 0', pos=(0,45))
@@ -148,7 +148,7 @@ class PickerPanel(wx.PyPanel):
 
   #------------------------------------------------------------------------
   def showPreview(self, pnl):
-    sb = wx.StaticBox(pnl, label=" preview ")
+    sb = wx.StaticBox(pnl, label=" Preview ")
 
     panel = wx.Panel(pnl, size=(100,100))
     panel.SetInitialSize()

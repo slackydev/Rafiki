@@ -97,11 +97,11 @@ def move_click(x,y, btn, rand=(0,0)):
     return click(btn)
 
 #-------------------------------------------------------------------
-def move(x,y, spdev=12, stdev=(0,0), skipclose=1):
+def move(x,y, speed=12, rand=(0,0), skipclose=1):
     ''' A smart mouse movement function written by Benjamin J. Land
         # https://github.com/BenLand100
 
-        Convertet to Python by Yumekui (and WarPie)
+        Convertet to Python by Yumekui and Author
     '''
     #---------------------------------------------------------------
     def Move_(x0, y0, x, y, gravity, wind, minWait, maxWait, maxStep, targetArea):
@@ -142,24 +142,24 @@ def move(x,y, spdev=12, stdev=(0,0), skipclose=1):
         return cx, cy
 
     #---------------------------------------------------------------
-    speed = (r.random()*15. + 15.)/float(spdev)
+    spdev = (r.random()*15. + 15.)/float(speed)
 
     cx, cy = get_position()
-    (stdevx, stdevy) = stdev
+    (stdevx, stdevy) = rand
 
     #skip if mouse is already close to target unless told to not do so
     if skipclose and abs(cx-x) < 3 and abs(cy-y) < 3:
         return cx, cy
     if stdevx != 0:
-        x = int(round(r.gauss(x, stdevx)))
+        x = randrange(x-stdevx, x+stdevx)
     if stdevy != 0:
-        y = int(round(r.gauss(y, stdevy)))
+        y = randrange(y-stdevx, y+stdevx)
     
-    Move_(cx, cy, x, y, 9.81, 2.,5./speed,10/speed,10*speed,8*speed)
+    Move_(cx, cy, x, y, 9.81, 2.,5./spdev,10/spdev,10*spdev,8*spdev)
     
 #-------------------------------------------------------------------
-def move_rect(box, btn=False):
-    """ Move mouse to a random point within a given rectangle 
+def box(box, btn=False):
+    """ Move mouse to a random point within a given box 
     """
     x1,y1,x2,y2 = box
     try: 

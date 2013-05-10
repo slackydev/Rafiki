@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 '''~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  This file is part of the Rafiki Macro Library (RML)
  Copyright (c) 2012-2013 by Jarl Holta
@@ -13,7 +13,6 @@
  wxWindows licence: <http://opensource.org/licenses/wxwindows.php>
  You might have recieved a copy of the lisence.
 
-      ---- slow --- (using classes will slow it down further)
  --- Computer vision (RAW Version) for the Rafiki Macro Library ---
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~''' 
 from PIL import Image

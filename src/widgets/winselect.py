@@ -14,7 +14,6 @@ dsp = display.Display()
 
 #---- Draw a rect on the screen ----
 def drawRect(width, pos, size):
-    
     screen = dsp.screen()
 
     colormap = screen.default_colormap

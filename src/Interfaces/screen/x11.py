@@ -2,16 +2,26 @@
 import os,sys
 from Xlib import display, X
 #import gtk.gdk
-import Image
+from PIL import Image
 import struct
 
 dsp = display.Display()
 root = dsp.screen().root
 
+#-----------------------------------------------------------------------
 def getScreenSize():
   W = dsp.screen().width_in_pixels
   H = dsp.screen().height_in_pixels
   return W,H
+
+#-----------------------------------------------------------------------  
+def getDesktopScreenSize():
+  try:
+      prime = root.xrandr_get_screen_info()._data['sizes'][1]
+      size = prime['width_in_pixels'], prime['height_in_pixels']
+  except:
+      size = getScreenSize()
+  return size
 
 #-----------------------------------------------------------------------
 def getWindowParent(winID):
@@ -84,45 +94,37 @@ def getVisibleWindows():
 
   return result
 
+#-----------------------------------------------------------------------
+def getWindowRect(winID):
+  def wrapped(obj, pos):
+    wnd = obj.query_tree()
+    par = wnd.parent
+    if par:
+      p = par.get_geometry()
+      pos = (p.x+pos[0],  p.y+pos[1])
+      wrapped(par, pos)
+    return pos
+  
+  window = dsp.create_resource_object('window', winID)
+  geo = window.get_geometry()
+  pos = wrapped(window, (geo.x,  geo.y))
+
+  print pos, (geo.width, geo.height)
 
 #-----------------------------------------------------------------------
 def getWindowFromPointer():
-  """ Simple function to get window from pointer - hardcoded 
+  """ find current window behind pointer -- we assume that 
+      `getVisibleWindows()` returns the windows in correct order!
   """
   pointer = root.query_pointer()
-  x,y = pointer.root_x, pointer.root_y
-  winID = pointer.child
-  w = getWindowObjGeo(winID)
-  SX, SY = w.x, w.y
-  result = (w.x, w.y, w.x+w.width, w.y+w.height), winID
-
-  # Get child frame
-  children = winID.query_tree().children
-  for child in children:
-    c = getWindowObjGeo(child)
-    if (c.width, c.height) > (1,1):
-      attrs = child.get_attributes()
-      if attrs.map_state == X.IsViewable:
-        if (x >= (SX+c.x) and x <= (SX+c.x+c.width)) and \
-           (y >= (SY+c.y) and y <= (SY+c.y+c.height)):
-          result = ((SX+c.x), (SY+c.y), (SX+c.x+c.width), (SY+c.y+c.height)), child
-          CX, CY = (SX+c.x), (SY+c.y)
-
-          inner_children = child.query_tree().children
-          for subchild in inner_children:
-            # Child of child data (We wont go further - For now)
-            ic = subchild.get_geometry()
-            if (ic.width, ic.height) > (1,1):
-              attrs = subchild.get_attributes()
-              if attrs.map_state == X.IsViewable:
-                if (x >= (CX+ic.x) and x <= (CX+ic.x+ic.width)) and \
-                   (y >= (CY+ic.y) and y <= (CY+ic.y+ic.height)):
-
-                  result = ((CX+ic.x), (CY+ic.y), \
-                            (CX+ic.x+ic.width), (CY+ic.y+ic.height)), \
-                            subchild
-
-  return result
+  i_x, i_y = pointer.root_x, pointer.root_y
+  windows = reversed(getVisibleWindows())
+  for wnd in windows:
+    xs,ys = wnd['pos']
+    xe,ye = wnd['size'][0]+xs, wnd['size'][1]+ys
+    if (i_x >= xs) and (i_x <= xe) and \
+       (i_y >= ys) and (i_y <= ye):
+      return wnd
 
 
 #-----------------------------------------------------------------------
@@ -177,11 +179,8 @@ def GTK_grabscreen(pos=(0,0), size=(0,0)):
 if __name__ == '__main__':
   import time
 
-  image = GTK_grabscreen((0,0), (200,200))
-  #image.show()
-
-  time.sleep(2)
-
+  win = getWindowFromPointer()
+  getWindowRect(win['obj'])
   '''
   data = root.query_pointer()
   x,y = data.root_x, data.root_y

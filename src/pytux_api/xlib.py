@@ -2478,7 +2478,7 @@ XNewModifiermap.argtypes = [c_int]
     #~ int			/* bytes_per_line */
 #~ );
 XCreateImage = libX11.XCreateImage
-XCreateImage.restype = POINTER(XImage)
+XCreateImage.restype = XImage
 XCreateImage.argtypes = [POINTER(Display), POINTER(Visual), c_uint, c_int, c_int, c_char_p, c_uint, c_uint, c_int, c_int]
 
 #~ extern Status XInitImage(
