@@ -3,7 +3,7 @@ from Xlib import X
 from Xlib.ext.xtest import fake_input
 from Xlib.XK import string_to_keysym, keysym_to_string
 
-from .base import KeybdMeta, KeybdEventMeta
+from .stub import KeybdMeta
 
 import time
 
