@@ -31,3 +31,13 @@ Requirements
 - *Python-XLib* (IF LINUX) ---- http://sourceforge.net/projects/python-xlib/  
 
 Thats all I remember ATM.
+
+
+Screenshots
+--------------
+**Linux Mint Debian Edition**
+![My image](http://oi40.tinypic.com/11uw8x1.jpg)
+
+___
+**Windows XP**
+![My image](http://oi41.tinypic.com/2w3pyx5.jpg)
