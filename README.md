@@ -10,8 +10,8 @@ Rafiki is
 --------------
 - Open Source (Will be specified later).
 - 100% Free.
-- Aims to be cross platform (runs on linux & windows!).
-- Written in Python 2.7 - The scripts can run in PyPy!
+- Aims to be cross platform (runs on Windows and some Linux-distros!).
+- Written in (/for) Python 2.7 - The *scripts* can run in PyPy!
 
 
 Rafiki aims to be able to
