@@ -1,5 +1,4 @@
 import time
-from threading import Thread
 import random
 
 #-------------------------------------------------------------------
@@ -55,44 +54,3 @@ class KeybdMeta(object):
         if character in '<>?:"{}|~!@#$%^&*()_+=':
             return True
         return False
-
-    def free(self):
-        pass
-
-class KeybdEventMeta(Thread):
-    """
-    The base class for Keybd. Represents basic operational model.
-    """
-    def __init__(self, capture=False):
-        Thread.__init__(self)
-        self.daemon = True
-        self.capture = capture
-        self.state = True
-
-    def run(self):
-        self.state = True
-
-    def stop(self):
-        self.state = False
-
-    def handler(self):
-        raise NotImplementedError
-
-    def key_press(self, key):
-        """Subclass this method with your key press event handler."""
-        pass
-
-    def key_release(self, key):
-        """Subclass this method with your key release event handler."""
-        pass
-
-    def escape_code(self):
-        """
-        Defines a means to signal a stop to listening. Subclass this with your
-        escape behavior.
-        """
-        escape = None
-        return escape
-
-    def free(self):
-        pass
