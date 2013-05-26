@@ -121,8 +121,9 @@ class RafikiFrame(wx.Frame):
       self.SetSize((900, 800))
 
       # If given statupargument(s), try to open as file
-      print sys.argv[0]
-      for path in sys.argv[1:]: 
+
+      if len(sys.argv) > 1:
+        for path in sys.argv[1:]: 
           try:
             self.argumentOpen(path)
           except:
@@ -263,7 +264,7 @@ class RafikiFrame(wx.Frame):
 
       data = os.path.splitext(filename)
 
-      if data[1] not in BADEXT:
+      if data[1] in ('py', 'pyw', 'c', 'cpp', 'h', 'pyx'):
         filehandle=open(os.path.join(dirname, filename),'rb')
         self.onNewDoc(0)
         page = self.ntb.GetCurrentPage()
