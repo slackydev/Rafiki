@@ -1,4 +1,0 @@
-I will use CTypes on windows instead of using the hugh win-api-wrapper: PyWin32
-- I do not see any reason for adding more dependencies then needed.
-
-This should not be a problem, but rather straight forward, and simple.

@@ -1,6 +1,0 @@
-This is a (auto-generated) wrapper for XLib using ctypes.
-
-I do not know if it will be used, but I will have it around just in case.
-
-- It seems to be rather useless, but will see. Maybe I'll just write a simple C.so for the 
-functions we need, and wrap that in CTypes. CPythons C-API is rather not an alterantive (future PyPy support in mind)
