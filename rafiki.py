@@ -120,6 +120,15 @@ class RafikiFrame(wx.Frame):
       self.Show()
       self.SetSize((900, 800))
 
+      # If given statupargument(s), try to open as file
+      print sys.argv[0]
+      for path in sys.argv[1:]: 
+          try:
+            self.argumentOpen(path)
+          except:
+            self.writeLn('No such file: %s' % path)
+
+
       # CONNECT EVENTS
       Publisher.subscribe(self.scriptMsg, "update")
       self.tc.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.onActivateFile)
@@ -247,6 +256,30 @@ class RafikiFrame(wx.Frame):
         self.files[page_id] = (dirname, filename) 
         self.SetTitle(self.title + " | "+ titledir + filename)
     
+  def argumentOpen(self, fpath):
+      """ Open a file doubbleclicked in the treectrl """
+      filename = fpath.split(os.sep)[-1]
+      dirname = os.path.dirname(fpath)
+
+      data = os.path.splitext(filename)
+
+      if data[1] not in BADEXT:
+        filehandle=open(os.path.join(dirname, filename),'rb')
+        self.onNewDoc(0)
+        page = self.ntb.GetCurrentPage()
+        page.text.SetText(filehandle.read().encode("utf8"))
+        filehandle.close()
+
+        page_id = self.ntb.GetSelection()
+        self.ntb.SetPageText(page_id, filename)
+
+        titledir = dirname
+        if len(dirname)>30: #Hint: os.sep
+          titledir = ".." + titledir[-20:]
+
+        self.files[page_id] = (dirname, filename) 
+        self.SetTitle(self.title + " | "+ titledir + filename)
+
   def onNewDoc(self, event):
       """Add tab, and select it"""
       self.ntb.addNewTab(event)

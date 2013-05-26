@@ -29,6 +29,7 @@ Requirements
 - *WxPython* (GUI) ---- http://www.wxpython.org/
 - *PIL* (Image manipulation) ---- https://pypi.python.org/pypi/Pillow/ 
 - *OpenCV* (Comp. vision) ---- http://opencv.org/downloads.html
+- *NumPy* (used with OpenCV) ---- http://sourceforge.net/projects/numpy/files/NumPy/
 - *Python-XLib* (IF LINUX) ---- http://sourceforge.net/projects/python-xlib/  
 
 
