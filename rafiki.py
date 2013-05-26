@@ -507,10 +507,10 @@ class DebugPanel(wx.Panel):
         self.SetSizer(dbgctrl)
 
     def Insert(self, text):
-        self.dbg.WriteText(text)
+        self.dbg.AppendText(text)
 
     def InsertLn(self, text):
-        self.dbg.WriteText(text+'\n')
+        self.dbg.AppendText(text+'\n')
 
     def Clear(self):
         self.dbg.SetValue("")
